@@ -6,6 +6,6 @@
 <body>
     <h2>Welcome to My EAR Application deployed on WebLogic 14c</h2>
     <p>Application deployment is successful.</p>
-    <p><a href="hello">Go to Hello Servlet</a></p>
+    <p><a href="Hello">Go to Hello Servlet</a></p>
 </body>
 </html>
