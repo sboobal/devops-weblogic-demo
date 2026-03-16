@@ -1,0 +1,51 @@
+version: 1.0
+component: deployment
+shell: bash
+
+env:
+  variables:
+    APP_NAME: "devops-weblogic-demo"
+    EAR_FILE: "devops-weblogic-demo.ear"
+    STAGE_DIR: "/opt/weblogic/deploy/staging"
+    SCRIPT_DIR: "/opt/weblogic/deploy/scripts"
+    LOG_DIR: "/opt/weblogic/deploy/logs"
+    WLS_DEPLOY_TARGET: "AdminServer"
+    WLS_ADMIN_URL: "t3://10.0.0.10:7001"
+    WLS_USER: "weblogic"
+    WLS_HOME: "/u01/oracle/middleware/Oracle_Home"
+    DOMAIN_HOME: "/u01/oracle/user_projects/domains/base_domain"
+
+timeoutInSeconds: 1800
+
+files:
+  - source: my-ear-app.ear
+    destination: /opt/weblogic/deploy/staging
+  - source: scripts/deploy_ear.sh
+    destination: /opt/weblogic/deploy/scripts
+  - source: scripts/stop_app.sh
+    destination: /opt/weblogic/deploy/scripts
+  - source: scripts/validate_deploy.sh
+    destination: /opt/weblogic/deploy/scripts
+
+steps:
+  - stepType: Command
+    name: "Create required folders"
+    command: |
+      mkdir -p ${STAGE_DIR} ${SCRIPT_DIR} ${LOG_DIR}
+      chmod +x ${SCRIPT_DIR}/*.sh || true
+    runAs: ocarun
+    timeoutInSeconds: 60
+
+  - stepType: Command
+    name: "Deploy EAR to WebLogic"
+    command: |
+      ${SCRIPT_DIR}/deploy_ear.sh
+    runAs: ocarun
+    timeoutInSeconds: 900
+
+  - stepType: Command
+    name: "Validate deployment"
+    command: |
+      ${SCRIPT_DIR}/validate_deploy.sh
+    runAs: ocarun
+    timeoutInSeconds: 300

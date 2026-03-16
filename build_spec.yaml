@@ -1,0 +1,34 @@
+version: 0.1
+component: build
+timeoutInSeconds: 3600
+shell: bash
+
+env:
+  variables:
+    ARTIFACT_NAME: "devops-weblogic-demo.ear"
+    APP_VERSION: "1.0.0"
+
+steps:
+  - type: Command
+    name: "Show Maven Version"
+    timeoutInSeconds: 60
+    command: |
+      mvn -version
+
+  - type: Command
+    name: "Clean and Package EAR"
+    timeoutInSeconds: 1800
+    command: |
+      mvn clean package -DskipTests
+
+  - type: Command
+    name: "Verify EAR"
+    timeoutInSeconds: 60
+    command: |
+      ls -l target/
+      test -f target/${ARTIFACT_NAME}
+
+outputArtifacts:
+  - name: ear_output
+    type: BINARY
+    location: target/devops-weblogic-demo.ear
