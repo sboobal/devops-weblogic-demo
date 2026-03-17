@@ -18,7 +18,7 @@ env:
 timeoutInSeconds: 1800
 
 files:
-  - source: my-ear-app.ear
+  - source: devops-weblogic-demo.ear
     destination: /opt/weblogic/deploy/staging
   - source: scripts/deploy_ear.sh
     destination: /opt/weblogic/deploy/scripts
