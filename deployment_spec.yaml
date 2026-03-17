@@ -1,0 +1,18 @@
+version: 1.0
+component: deployment
+shell: bash
+timeoutInSeconds: 600
+
+files:
+  - source: devops-weblogic-demo.ear
+    destination: /u01/artifacts/weblogic
+
+steps:
+  - stepType: Command
+    name: "Verify EAR copied"
+    timeoutInSeconds: 120
+    command: |
+      set -e
+      ls -l /u01/artifacts/weblogic
+      test -f /u01/artifacts/weblogic/devops-weblogic-demo.ear
+      echo "EAR copied successfully to VM"
