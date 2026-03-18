@@ -13,6 +13,6 @@ public class HelloServlet extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
-        out.println("<html><body><h2>Hello from WebLogic 14c EAR Deployment via OCI DevOps</h2></body></html>");
+        out.println("<html><body><h2> Hello from WebLogic 14c EAR Deployment via OCI VM Instance-DevOps</h2></body></html>");
     }
 }
